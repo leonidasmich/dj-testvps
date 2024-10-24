@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: hello_world_db
+      POSTGRES_USER: hello_world_user
+      POSTGRES_PASSWORD: yourpassword
+
+  web:
+    build: .
+    command: gunicorn hello_world_project.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DJANGO_SECRET_KEY: "your-production-secret-key"
+      DJANGO_SETTINGS_MODULE: "hello_world_project.settings"
+      POSTGRES_DB: hello_world_db
+      POSTGRES_USER: hello_world_user
+      POSTGRES_PASSWORD: yourpassword
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./static:/static
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
