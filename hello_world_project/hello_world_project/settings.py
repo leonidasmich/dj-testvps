@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['13.51.173.92', '188.245.164.87']
+ALLOWED_HOSTS = [os.getenv('EC2'), os.getenv('COOLIFY'), 'localhost', '127.0.0.1']
 
 
 # Application definition
