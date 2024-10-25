@@ -1,2 +1,4 @@
 venv
 .env
+*.pyc
+hello_world_project/hello_world_project/__pycache__/settings.cpython-311.pyc
